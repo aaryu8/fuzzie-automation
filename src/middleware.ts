@@ -1,23 +1,27 @@
-import { authMiddleware } from '@clerk/nextjs'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-export default authMiddleware({
-  publicRoutes: [
-    '/',
-    '/sign-in(.*)',
-    '/sign-up(.*)',
-    '/api/clerk-webhook',
-    '/api/drive-activity/notification',
-    '/api/payment/success',
-  ],
-  ignoredRoutes: [
-    '/api/auth/callback/discord',
-    '/api/auth/callback/notion',
-    '/api/auth/callback/slack',
-    '/api/flow',
-    '/api/cron/wait',
-  ],
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+  '/api/clerk-webhook',
+  '/api/drive-activity/notification',
+  '/api/payment/success',
+])
+
+const isIgnoredRoute = createRouteMatcher([
+  '/api/auth/callback/discord',
+  '/api/auth/callback/notion',
+  '/api/auth/callback/slack',
+  '/api/flow',
+  '/api/cron/wait',
+])
+
+export default clerkMiddleware((auth, request) => {
+  if (isIgnoredRoute(request)) return
+  if (!isPublicRoute(request)) auth().protect()
 })
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 }
