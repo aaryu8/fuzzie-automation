@@ -119,7 +119,7 @@ export const EditorCanvasDefaultCardTypes = {
       'Connect with Google drive to trigger actions or to create files and folders.',
     type: 'Trigger',
   },
-  Notion: { description: 'Work In Progress . Coming Soon 🚧🚧', type: 'Action' },
+  Notion: { description: 'Create entries directly in notion.', type: 'Action' },
   'Custom Webhook': {
     description:
       'Connect any app that has an API key and send data to your applicaiton.',
