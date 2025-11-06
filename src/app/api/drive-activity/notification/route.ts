@@ -6,6 +6,10 @@ import axios from 'axios'
 import { headers } from 'next/headers'
 import { NextRequest } from 'next/server'
 
+// IT JUST LISTENS TO WHATEVER HAPPENS , GOOGLE LISTENER K LIYE (for that first bun add google apis) : 6:18
+
+
+
 export async function POST(req: NextRequest) {
   console.log('🔴 Changed')
   const headersList = headers()
@@ -79,7 +83,7 @@ export async function POST(req: NextRequest) {
                 'https://api.cron-job.org/jobs',
                 {
                   job: {
-                    url: `${process.env.NGROK_URI}?flow_id=${flow.id}`,
+                    url: `https://fuzzie-automation-woad.vercel.app/cron/wait?flow_id=${flow.id}`,
                     enabled: 'true',
                     schedule: {
                       timezone: 'Europe/Istanbul',
